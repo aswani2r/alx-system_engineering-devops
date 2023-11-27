@@ -2,7 +2,7 @@
 #displays Best School 10 times
 
 count=0
-while [ $count -le 11 ]; do
+while [ $count -le 10 ]; do
     if [ $count -eq 9 ]; then
         echo -n "Best School "
         echo "Hi"
