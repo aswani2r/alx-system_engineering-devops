@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#This bash script generates an RSA key pair
+PRIVATE_KEY_NAME="school"
+BITS=4096
+PASSPHRASE="betty"
+ssh-keygen -t rsa -b $BITS -f $PRIVATE_KEY_NAME -N "$PASSPHRASE"
+echo "Your identification has been saved in $PRIVATE_KEY_NAME."
+echo "Your public key has been saved in ${PRIVATE_KEY_NAME}.pub"
