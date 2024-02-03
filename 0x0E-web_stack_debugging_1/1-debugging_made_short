@@ -2,4 +2,5 @@
 sudo apt update && apt install -y nginx
 sudo service nginx start
 sudo service nginx status
-sudo nginx -t
+sudo lsof -i :80
+sudo service nginx stop
