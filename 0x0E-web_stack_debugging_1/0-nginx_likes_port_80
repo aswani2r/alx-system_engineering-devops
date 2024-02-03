@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-#get updates
+#get updates and upgrades
  sudo apt-get update
+ sudo apt-get upgrade
 
 # install net-tools
  sudo apt install net-tools
@@ -9,7 +10,7 @@
 sudo netstat -lpdn
 
 # start nginx
-service nginx start
+sudo systemctl start nginx
 
 #check status
 systemctl status nginx.service
