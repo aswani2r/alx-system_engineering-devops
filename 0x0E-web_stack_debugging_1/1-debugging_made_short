@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-sudo apt-get update
-sudo apt install net-tools nginx
-sudo systemctl start nginx
-systemctl status nginx.service
+sudo apt update && apt install -y nginx
+sudo service nginx start
+sudo service nginx status
+sudo nginx -t
