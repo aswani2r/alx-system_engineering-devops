@@ -1,31 +1,14 @@
 #!/usr/bin/env bash
-
-# Function to extract the record type and destination from dig output
-extract_record() {
-    local subdomain="$1"
-    local dig_output=$(dig "$subdomain")
-    echo "$dig_output" | awk '/^[^;]/ && /IN/{print "The subdomain", $1, "is a", $4, "record and points to", $NF}'
+# print subdomains and domains
+print_domainn_subdomain () {
+	dig "$1" | grep -A1 'ANSWER SECTION:' | sed -r "s/$1./$2/g" | awk -F""  'NR==2 { print "The subdomain "$1" is a "$4" and points to "$5"}
 }
-
-# Main script logic
-if [[ $# -eq  0 ]]; then
-    echo "No arguments provided."
-    exit  1
-fi
-
-domain=$1
-shift
-
-# If no subdomain is specified, audit the default ones
-if [[ $# -eq  0 ]]; then
-    subdomains=("www" "lb-01" "web-01" "web-02")
+if ["#$" -eq 2]
+then
+	print_domain_subdomain "$1.$2" "$2"
 else
-    subdomains=("$@")
+	print_domain_subdomain "www.$1" "www"
+	print_domain_subdomain "web-01.$1" "web-01"
+	print_domain_subdomain "webb-02.$1" "web-02"
+	print_domain_subdomain "lb-01.$1" "lb-01"
 fi
-
-for subdomain in "${subdomains[@]}"; do
-    full_subdomain="${subdomain}.${domain}"
-    # Call the function to get the record details
-    result=$(extract_record "${full_subdomain}")
-    echo "$result"
-done
