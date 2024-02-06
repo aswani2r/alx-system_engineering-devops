@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
-# print subdomains and domains
-print_domainn_subdomain () {
-	dig "$1" | grep -A1 'ANSWER SECTION:' | sed -r "s/$1./$2/g" | awk -F""  'NR==2 { print "The subdomain "$1" is a "$4" and points to "$5"}
+
+# Function to print subdomain and domain information
+print_domain_subdomain() {
+    dig "$1" | grep -A1 'ANSWER SECTION:' | sed -r "s/$1./$2/g" | awk -F'[[:space:]]+' 'NR==2 { printf "The subdomain %s is a %s record and points to %s\n", $1, $4, $5 }'
 }
-if ["#$" -eq 2]
-then
-	print_domain_subdomain "$1.$2" "$2"
+
+# Check if exactly two arguments are provided
+if [[ $# -eq  2 ]]; then
+    print_domain_subdomain "$1.$2" "$2"
 else
-	print_domain_subdomain "www.$1" "www"
-	print_domain_subdomain "web-01.$1" "web-01"
-	print_domain_subdomain "webb-02.$1" "web-02"
-	print_domain_subdomain "lb-01.$1" "lb-01"
+    # Default subdomains to check if only the domain is provided
+    subdomains=("www" "lb-01" "web-01" "web-02")
+    for subdomain in "${subdomains[@]}"; do
+        print_domain_subdomain "${subdomain}.$1" "$subdomain"
+    done
 fi
