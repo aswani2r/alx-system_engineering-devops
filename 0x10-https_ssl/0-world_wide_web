@@ -29,4 +29,3 @@ for subdomain in "${subdomains[@]}"; do
     result=$(extract_record "${full_subdomain}")
     echo "$result"
 done
-
