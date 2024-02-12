@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# This script configures the container to run Nginx as the nginx user and listens on port  8080
+
+# Change the user directive in nginx.conf to run Nginx as the nginx user
+sed -i 's/^user .*/user nginx;/' /etc/nginx/nginx.conf
+
+# Ensure Nginx is configured to listen on all active IPs on port  8080
+sed -i '/listen  80;/a \\\tlisten  8080;' /etc/nginx/sites-available/default
+
+# Reload Nginx to apply the changes
+systemctl nginx reload
