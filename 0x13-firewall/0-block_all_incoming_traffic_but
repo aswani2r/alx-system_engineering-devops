@@ -1,0 +1,13 @@
+#run an update
+sudo apt-get update
+#install ufw
+sudo apt install ufw
+#set default policies
+sudo ufw deny incoming
+sudo ufw allow outgoing
+#allow traffic on specified ports
+sudo ufw allow 22
+sudo ufw allow 443
+sudo ufw allow 80
+#enable ufw
+sudo ufw enable
