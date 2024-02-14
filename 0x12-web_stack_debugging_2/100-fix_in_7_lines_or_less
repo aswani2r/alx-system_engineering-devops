@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Check if username argument is provided
 if [ -z "$1" ]; then
   echo "Please provide a username as an argument."
