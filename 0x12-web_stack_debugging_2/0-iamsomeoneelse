@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
-# This script runs the 'whoami' command as a specified user
-sudo -u $1 whoami
-
+# Check if username argument is provided
+if [ -z "$1" ]; then
+  echo "Please provide a username as an argument."
+  exit 1
+fi
+# Run whoami command as the specified user
+sudo -u "$1" whoami
