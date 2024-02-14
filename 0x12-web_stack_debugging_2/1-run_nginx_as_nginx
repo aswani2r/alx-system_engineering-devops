@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-#Edit Nginx configuration file
+#configuring nginx to run as the nginx user.
 service nginx start
 nginx_conf="/etc/nginx/nginx.conf"
-
-#define the server block
 server_block=$(cat <<EOF
 server {
     listen 8080 default_server;
@@ -12,5 +10,4 @@ server {
 EOF
 )
 sed -i "s/http {/http{\n$ {$server_block}/" "$nginx_conf"
-#Restart Nginx service
 service nginx restart
