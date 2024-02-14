@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
+#Edit Nginx configuration file
+nginx_conf="/etc/nginx/nginx.conf"
 
-# Create a new nginx user if it doesn't exist
-id -u nginx &>/dev/null || useradd -r nginx
-
-# Stop the currently running nginx process
-systemctl stop nginx
-
-# Modify the nginx configuration to run as the nginx user
-sed -i 's/user\s*nginx;/user nginx;/' /etc/nginx/nginx.conf
-
-# Start nginx with the modified configuration
-nginx -g "daemon off;"
+#define the server block
+server_block=$(cat <<EOF
+server {
+    listen 8080 default_server;
+    listen [::]:8080 default_server;
+}
+EOF
+)
+sed -i "s/http {/http{\n$ {$server_block}/" "$nginx_conf"
+#Restart Nginx service
+service nginx restart
