@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #Edit Nginx configuration file
+service nginx start
 nginx_conf="/etc/nginx/nginx.conf"
 
 #define the server block
