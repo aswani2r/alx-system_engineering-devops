@@ -12,7 +12,7 @@ def fetch_employee_name(employee_id):
     """
     url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
     response = requests.get(url)
-    return response.json()['name']
+    return response.json().get('name')
 
 def fetch_todo_list(employee_id):
     """
@@ -26,7 +26,7 @@ def display_progress(employee_name, todo_list):
     """
     Displays the progress of the employee's TODO list.
     """
-    completed_tasks = [task for task in todo_list if task['completed']]
+    completed_tasks = [task for task in todo_list if task.get('completed')]
     total_tasks = len(todo_list)
     num_completed_tasks = len(completed_tasks)
 
@@ -34,10 +34,10 @@ def display_progress(employee_name, todo_list):
     print(f"\t{employee_name}: {num_completed_tasks} / {total_tasks}")
     print("Completed tasks:")
     for task in completed_tasks:
-        print(f"\t- {task['title']}")
+        print(f"\t- {task.get('title')}")
 
 if __name__ == "__main__":
-    if len(sys.argv) !=  2:
+    if len(sys.argv) !=   2:
         print("Usage: python3 todo_progress.py <employee_id>")
         sys.exit(1)
 
