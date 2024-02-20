@@ -1,47 +1,24 @@
 #!/usr/bin/python3
 """
-Script that, using a given REST API, for a given employee ID,
-returns information about his/her TODO list progress.
+Uses the JSON placeholder api to query data about an employee
 """
 
-import requests
-import sys
+from requests import get
+from sys import argv
 
+if __name__ == '__main__':
+    main_url = 'https://jsonplaceholder.typicode.com'
+    todo_url = main_url + "/user/{}/todos".format(argv[1])
+    name_url = main_url + "/users/{}".format(argv[1])
+    todo_result = get(todo_url).json()
+    name_result = get(name_url).json()
 
-def fetch_todo_list_progress(employee_id):
-    """
-    Fetches the TODO list progress for a given employee ID.
-
-    Args:
-        employee_id (int): The employee ID.
-
-    Returns:
-        None
-    """
-    url = f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos"
-    response = requests.get(url)
-
-    if response.status_code !=  200:
-        print(f"Failed to fetch data for employee {employee_id}.")
-        return
-
-    todos = response.json()
-
-    completed_tasks = [todo for todo in todos if todo.get('completed')]
-    total_tasks = len(todos)
-    completed_tasks_count = len(completed_tasks)
-
-    employee_name = todos[0].get('username')  # Assuming the username is the same for all tasks of an employee
-
-    print(f"Employee {employee_name} is done with tasks({completed_tasks_count}/{total_tasks}):")
-    for task in completed_tasks:
-        print(f"\t{task.get('title')}")
-
-
-if __name__ == "__main__":
-    if len(sys.argv) !=  2:
-        print("Usage: python3 script_name.py employee_id")
-        sys.exit(1)
-
-    employee_id = int(sys.argv[1])
-    fetch_todo_list_progress(employee_id)
+    todo_num = len(todo_result)
+    todo_complete = len([todo for todo in todo_result
+                         if todo.get("completed")])
+    name = name_result.get("name")
+    print("Employee {} is done with tasks({}/{}):"
+          .format(name, todo_complete, todo_num))
+    for todo in todo_result:
+        if (todo.get("completed")):
+            print("\t {}".format(todo.get("title")))
