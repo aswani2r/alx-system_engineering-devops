@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-sudo apt install -y net-tools nginx
-sudo service nginx start
-sudo service nginx status || echo "nginx is not running"
-sudo service nginx stop
+#Sets nginx for listening to 80 port
+sed -i "s/8080/80/" /etc/nginx/sites-enabled/default
+sudo service nginx restart
+kill -9 "$(cat /var/run/nginx.pid)"
