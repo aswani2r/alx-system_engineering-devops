@@ -1,35 +1,4 @@
 #!/usr/bin/env bash
-#get updates and upgrades
- sudo apt-get update
-
-# install net-tools
- sudo apt install net-tools
-# install nginx
-sudo apt install nginx -y
-
-#list ports and listening processes
-sudo netstat -lpdn
-
-# start nginx
-sudo systemctl start nginx
-
-#check status
-systemctl status nginx.service
-
-#check for details
-journalctl -xe
-
-#check configuration files
-sudo nginx -t
-
-#error logs for more details
-sudo cat /var/log/nginx/error.log
-
-#process listening on port :80
-sudo lsof -i :80
-
-#stop the process listening on port 80
-sudo service haproxy stop
-
-#restart nginx
-sudo service nginx reload
+# Fix nginx to listen to port 80
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+service nginx start
