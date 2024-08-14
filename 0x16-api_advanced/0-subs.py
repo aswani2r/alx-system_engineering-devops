@@ -1,15 +1,25 @@
-#!/usr/bin/python3
+#!usr/bin/python3
 import requests
 
 def number_of_subscribers(subreddit):
-    url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    headers = {'User-Agent':'python3:subreddit.subscriber.counter:v1.0 (by /u/your_username)'}
-    response = requests.get(url, headers=headers, allow_redirects=False)
+    base_url = "https://www.reddit.com/r/"
+    headers = {
+        "User-Agent": "YourAppName/1.0"
+    }
+    
+    url = f"{base_url}{subreddit}.json"
+    
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            data = response.json()
 
-    if response.status_code == 200:
-        data = response.json()
-        return data.get("data", {}).get("subscribers", 0)
-    else:
+            subscriber_count = data[1]['data']['children'][0]['data']['subscriber_count']
+            
+            return subscriber_count
+        else:
+            print(f"Failed to retrieve data: {response.status_code}")
+            return 0
+    except Exception as e:
+        print(f"An error occurred: {e}")
         return 0
-except requests.RequestException:
-	return 0
