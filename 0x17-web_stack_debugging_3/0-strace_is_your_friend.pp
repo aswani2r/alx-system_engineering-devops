@@ -1,12 +1,6 @@
-class apache_fix {
-  # Ensure the directory exists
-  file { '/path/to/directory':
-    ensure => 'directory',
-    mode   => '0755', # Adjust permissions as needed
-  }
+# Fixes Apache 500 error
 
-  # Other resources to fix the issue can be added here
+exec { 'fix-wordpress':
+  command => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php',
+  path    => '/usr/local/bin/:/bin/'
 }
-
-# Include the class in your site definition
-site::default::config { include apache_fix; }
