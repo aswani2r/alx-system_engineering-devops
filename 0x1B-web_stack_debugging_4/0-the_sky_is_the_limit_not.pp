@@ -1,12 +1,12 @@
-#enable user Holberton login and open files without errors
+#increase the amount of traffic nginx sever can handle
 
-#increase hard file limit for  holberton user
-exec { 'increase-hard-file-limit-for-holberton-user':
-  command => 'sed -i "/holberton hard/s/5/50000/" /etc/security/limits.conf'
-  path    => '/usr/local/bin/:/bin/'
+#increase the ULIMIT of the default file
+exec { 'fix--for--nginx':
+	command => 'sed -i "s/15/4096/" /etc/default/nginx',
+	path	=> '/usr/local/bin/:/bin/'
 }
-#increase soft file limit for user holberton
-exec { 'increase-soft-file-limit-for-holberton-user':
-  command => 'sed -i "/holberton soft/s/4/50000/" /etc/security/limits.conf'
-  path    => '/usr/local/bin/:/bin/'
+#restart nginx
+exec { 'nginx-restart':
+	command => 'nginx restart',
+	path	=> '/etc/init.d/'
 }
