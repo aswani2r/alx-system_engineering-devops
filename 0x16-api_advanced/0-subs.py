@@ -1,25 +1,18 @@
-#!usr/bin/python3
+#!/usr/bin/python3
+"""function that queries the Reddit API and returns the
+number of subscribers for a given subreddit"""
+
 import requests
 
-def number_of_subscribers(subreddit):
-    base_url = "https://www.reddit.com/r/"
-    headers = {
-        "User-Agent": "YourAppName/1.0"
-    }
-    
-    url = f"{base_url}{subreddit}.json"
-    
-    try:
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            data = response.json()
 
-            subscriber_count = data[1]['data']['children'][0]['data']['subscriber_count']
-            
-            return subscriber_count
-        else:
-            print(f"Failed to retrieve data: {response.status_code}")
-            return 0
-    except Exception as e:
-        print(f"An error occurred: {e}")
+def number_of_subscribers(subreddit):
+    """function that queries the Reddit API and returns the number of
+    subscribers for a given subreddit"""
+    url = 'http://www.reddit.com/r/{}/about.json'.format(subreddit)
+    headers = {'User-Agent': 'My User Agent 1.0'}
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        return data.get('data').get('subscribers')
+    else:
         return 0
